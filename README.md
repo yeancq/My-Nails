@@ -48,3 +48,6 @@ Ahora mismo hay 7 bloques con fondo nude y una etiqueta de texto (p. ej. "Foto d
 - El botón "Reservar" en todo el sitio enlaza directo a Booksy: `https://booksy.com/es-es/dl/show-business/141899`.
 - El mapa usa un iframe de Google Maps sin API key (no requiere configuración adicional).
 - Textos de servicios y precios extraídos del perfil de Booksy — conviene revisarlos antes de publicar por si han cambiado.
+- El banner de cabecera usa una foto real de la fachada del local (`assets/images/facade-banner.jpg`), recortada y retocada.
+- La galería (`assets/images/gallery-1.jpg` a `gallery-9.jpg`) y las fotos de equipo están ya insertadas; para añadir o cambiar fotos, sustituye el archivo manteniendo el mismo nombre o actualiza la ruta en `index.html`.
+- Las secciones y elementos con la clase `reveal` aparecen con una animación de entrada (fundido + desplazamiento) la primera vez que entran en el viewport al hacer scroll, gestionada por `IntersectionObserver` en `js/script.js`. Para añadir esta animación a un nuevo bloque, basta con añadirle la clase `reveal` en el HTML.

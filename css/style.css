@@ -264,12 +264,28 @@ ul { list-style: none; margin: 0; padding: 0; }
 }
 
 /* =========================================================
+   SITE BANNER (cabecera de marca)
+   ========================================================= */
+.site-banner {
+  margin-top: 91px; /* despeja el nav, que va fixed */
+  width: 100%;
+  overflow: hidden;
+}
+.site-banner__img {
+  width: 100%;
+  height: clamp(110px, 18vw, 220px);
+  object-fit: cover;
+  object-position: center 40%;
+  display: block;
+}
+
+/* =========================================================
    HERO
    ========================================================= */
 .hero {
   max-width: var(--container);
   margin: 0 auto;
-  padding: 168px var(--edge) 100px;
+  padding: 72px var(--edge) 100px;
   display: grid;
   grid-template-columns: 1.1fr 0.9fr;
   align-items: center;
@@ -373,7 +389,7 @@ ul { list-style: none; margin: 0; padding: 0; }
 
 .about__team {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(3, 1fr);
   gap: 24px;
   align-self: start;
 }
@@ -381,6 +397,11 @@ ul { list-style: none; margin: 0; padding: 0; }
 .team-card__photo {
   aspect-ratio: 3/4;
   margin-bottom: 16px;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  display: block;
+  filter: grayscale(4%) contrast(1.03);
 }
 
 .team-card h3 {
@@ -465,16 +486,30 @@ ul { list-style: none; margin: 0; padding: 0; }
 
 .gallery__grid {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  grid-template-rows: repeat(2, minmax(140px, 240px));
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: minmax(150px, 220px);
+  grid-auto-flow: dense;
   gap: 16px;
 }
 
-.gallery__item--a { grid-column: span 3; grid-row: span 2; }
-.gallery__item--b { grid-column: span 2; grid-row: span 1; }
-.gallery__item--c { grid-column: span 1; grid-row: span 1; }
-.gallery__item--d { grid-column: span 1; grid-row: span 1; }
-.gallery__item--e { grid-column: span 2; grid-row: span 1; }
+.gallery__item {
+  overflow: hidden;
+  background: var(--nude);
+}
+.gallery__item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s var(--ease);
+}
+.gallery__item:hover img {
+  transform: scale(1.045);
+}
+
+.gallery__item:nth-child(1) { grid-column: span 2; grid-row: span 2; }
+.gallery__item:nth-child(4) { grid-column: span 2; }
+.gallery__item:nth-child(7) { grid-column: span 2; }
 
 /* =========================================================
    REVIEWS
@@ -657,6 +692,21 @@ ul { list-style: none; margin: 0; padding: 0; }
 }
 
 /* =========================================================
+   SCROLL REVEAL — misma sensación que la entrada del hero,
+   disparada por IntersectionObserver en script.js
+   ========================================================= */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.85s var(--ease), transform 0.85s var(--ease);
+  will-change: opacity, transform;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* =========================================================
    FOCUS STATE (accessibility)
    ========================================================= */
 a:focus-visible, button:focus-visible {
@@ -673,26 +723,28 @@ a:focus-visible, button:focus-visible {
 
   .hero {
     grid-template-columns: 1fr;
-    padding-top: 140px;
+    padding-top: 56px;
     text-align: left;
   }
   .hero__art { order: -1; max-width: 280px; margin: 0 auto 20px; }
 
   .about { grid-template-columns: 1fr; gap: 40px; }
+  .about__team { grid-template-columns: 1fr 1fr; }
   .services__groups { grid-template-columns: 1fr; }
   .location { grid-template-columns: 1fr; }
   .reviews__list { grid-template-columns: 1fr 1fr; }
 
   .gallery__grid {
     grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(3, 180px);
+    grid-auto-rows: 180px;
   }
-  .gallery__item--a { grid-column: span 2; grid-row: span 1; }
-  .gallery__item--b, .gallery__item--e { grid-column: span 1; }
+  .gallery__item:nth-child(1) { grid-column: span 2; grid-row: span 1; }
+  .gallery__item:nth-child(4), .gallery__item:nth-child(7) { grid-column: span 1; }
 }
 
 @media (max-width: 600px) {
   .nav__cta { display: none; }
   .reviews__list { grid-template-columns: 1fr; }
+  .about__team { grid-template-columns: 1fr; max-width: 340px; margin: 0 auto; }
   .footer__bottom { flex-direction: column; text-align: center; }
 }
