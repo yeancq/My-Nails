@@ -167,6 +167,12 @@ ul { list-style: none; margin: 0; padding: 0; }
   background: rgba(250, 247, 242, 0.86);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(42,36,32,0.08);
+  transform: translateY(0);
+  transition: transform 0.45s var(--ease), box-shadow 0.35s var(--ease);
+}
+
+.nav--hidden {
+  transform: translateY(-100%);
 }
 
 .nav__inner {
@@ -391,6 +397,15 @@ ul { list-style: none; margin: 0; padding: 0; }
   color: var(--taupe);
   font-size: 1.05rem;
   max-width: 44ch;
+}
+
+.about__extra {
+  color: var(--taupe);
+  font-size: 0.95rem;
+  max-width: 44ch;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(42,36,32,0.08);
 }
 
 .about__team {
