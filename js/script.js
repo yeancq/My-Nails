@@ -21,14 +21,26 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Sombra sutil en el nav al hacer scroll
+  // Sombra sutil + ocultar/mostrar el nav según la dirección del scroll
   const nav = document.getElementById("nav");
+  let lastY = window.scrollY;
+  const HIDE_AFTER = 120; // px antes de empezar a ocultar
   const onScroll = () => {
-    if (window.scrollY > 12) {
-      nav.style.boxShadow = "0 1px 0 rgba(42,36,32,0.06)";
-    } else {
-      nav.style.boxShadow = "none";
+    const y = window.scrollY;
+
+    nav.style.boxShadow = y > 12 ? "0 1px 0 rgba(42,36,32,0.06)" : "none";
+
+    if (navMobile && navMobile.classList.contains("is-open")) {
+      lastY = y;
+      return; // no ocultar el nav con el menú móvil abierto
     }
+
+    if (y > lastY && y > HIDE_AFTER) {
+      nav.classList.add("nav--hidden"); // bajando: ocultar
+    } else if (y < lastY) {
+      nav.classList.remove("nav--hidden"); // subiendo: mostrar
+    }
+    lastY = y;
   };
   window.addEventListener("scroll", onScroll, { passive: true });
   onScroll();
@@ -53,10 +65,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const io = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("is-visible");
-            io.unobserve(entry.target);
-          }
+          // Se añade al entrar y se quita al salir, tanto al bajar como
+          // al subir, para que la animación se repita cada vez.
+          entry.target.classList.toggle("is-visible", entry.isIntersecting);
         });
       },
       { threshold: 0.15, rootMargin: "0px 0px -8% 0px" }
