@@ -42,6 +42,23 @@ Ahora mismo hay 7 bloques con fondo nude y una etiqueta de texto (p. ej. "Foto d
    - Un registro `CNAME` a `tu-usuario.github.io` si usan un subdominio como `www`.
 3. Activa "Enforce HTTPS" en la misma pantalla una vez el DNS propague (puede tardar hasta 24h).
 
+## Evitar que el navegador sirva una versión antigua en caché
+
+Cada vez que subas cambios al repositorio (nuevo CSS, JS o contenido), los visitantes que ya conocían la web podrían seguir viendo la versión anterior porque su navegador la tiene guardada en caché. Para evitarlo:
+
+1. En `index.html`, busca estas dos líneas cerca del final del `<head>` y del `<body>`:
+
+   ```html
+   <link rel="stylesheet" href="css/style.css?v=20260903-1">
+   ...
+   <script src="js/script.js?v=20260903-1"></script>
+   ```
+
+2. Cambia el número de versión (`?v=...`) en ambas — por ejemplo, a la fecha del día o subiendo el número: `?v=20260910-1`. Con eso el navegador entiende que es un archivo "nuevo" y descarga la versión actualizada en vez de usar la cacheada.
+3. También se han añadido etiquetas `Cache-Control` en el `<head>` para pedirle al navegador que no guarde el HTML en caché, así que la propia página `index.html` siempre se recarga fresca.
+
+En resumen: **cada vez que subas cambios de `style.css` o `script.js`, incrementa el `?v=` en `index.html`.**
+
 ## Notas de diseño
 
 - Colores y tipografías están centralizados como variables CSS al principio de `css/style.css` (`:root`), fáciles de ajustar.
